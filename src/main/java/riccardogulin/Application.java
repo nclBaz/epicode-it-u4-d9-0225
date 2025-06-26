@@ -81,5 +81,34 @@ public class Application {
 		List<User> fiveOldUsers = users.stream().sorted(Comparator.comparing(User::getAge).reversed()).skip(0).limit(10).toList();
 		fiveOldUsers.forEach(user -> System.out.println(user));
 
+		// **************************************************************** MAP TO **************************************************************
+		System.out.println("**************************************************************** MAP TO **************************************************************");
+
+		// 1. Calcolo della somma delle età tramite reduce
+		System.out.println("1. Calcolo della somma delle età tramite reduce");
+		int totalAge = users.stream().map(user -> user.getAge()).reduce(0, (partialSum, currentAge) -> partialSum + currentAge);
+		System.out.println("Somma tramite reduce: " + totalAge);
+
+		// 2. Calcolo della somma delle età tramite mapToInt
+		System.out.println("1. Calcolo della somma delle età tramite mapToInt");
+		int totalAge2 = users.stream().mapToInt(user -> user.getAge()).sum();
+		System.out.println("Somma tramite mapToInt: " + totalAge2);
+
+		// 3. Calcolo dell'età media tramite mapToInt
+		System.out.println("3. Calcolo dell'età media tramite mapToInt");
+		OptionalDouble average2 = users.stream().mapToInt(user -> user.getAge()).average();
+		if (average2.isPresent()) System.out.println("La media è: " + average2.getAsDouble());
+		else System.out.println("Non è possibile calcolare la media perché la lista è vuota");
+
+		// 4. Calcolo dell'età maggiore tramite mapToInt
+		System.out.println("4. Calcolo dell'età maggiore tramite mapToInt");
+		OptionalInt maxAge = users.stream().mapToInt(user -> user.getAge()).max();
+		if (maxAge.isPresent()) System.out.println("L'età massima è: " + maxAge.getAsInt());
+		else System.out.println("Non è stato possibile determinare l'età massima perché la lista è vuota");
+
+		// 5. Otteniamo statistiche sull'età tramite mapToInt
+		IntSummaryStatistics stats = users.stream().mapToInt(user -> user.getAge()).summaryStatistics();
+		System.out.println(stats);
+
 	}
 }
