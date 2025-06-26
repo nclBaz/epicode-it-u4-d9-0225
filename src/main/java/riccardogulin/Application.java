@@ -59,5 +59,27 @@ public class Application {
 		Map<String, IntSummaryStatistics> statsPerCity = users.stream().collect(Collectors.groupingBy(user -> user.getCity(), Collectors.summarizingInt(user -> user.getAge())));
 		statsPerCity.forEach((city, stats) -> System.out.println("Città: " + city + ", stats: " + stats));
 
+		// **************************************************************** COMPARATORS **************************************************************
+		System.out.println("**************************************************************** COMPARATORS **************************************************************");
+
+		// 1. Ordiniamo gli utenti per età (Ordine Crescente)
+		List<User> usersSortedByAge = users.stream().sorted(Comparator.comparing(user -> user.getAge())).toList();
+		usersSortedByAge.forEach(user -> System.out.println(user));
+
+		// 2. Ordiniamo gli utenti per età (Ordine Derescente)
+		List<User> usersSortedByAgeDesc = users.stream().sorted(Comparator.comparing(User::getAge).reversed()).toList();
+		usersSortedByAgeDesc.forEach(user -> System.out.println(user));
+
+		// 3. Ordiniamo gli utenti per cognome
+		List<User> usersSortedBySurname = users.stream().sorted(Comparator.comparing(user -> user.getSurname())).toList();
+		usersSortedBySurname.forEach(user -> System.out.println(user));
+
+		// **************************************************************** LIMIT **************************************************************
+		System.out.println("**************************************************************** LIMIT **************************************************************");
+
+		// 1. Otteniamo i 5 user più vecchi, tramite il sorted li ordino per età decrescente, poi tramite il limit tengo solo i primi 5
+		List<User> fiveOldUsers = users.stream().sorted(Comparator.comparing(User::getAge).reversed()).skip(0).limit(10).toList();
+		fiveOldUsers.forEach(user -> System.out.println(user));
+
 	}
 }
